@@ -1,4 +1,6 @@
-public class CentroComercial {
+package huidobroMarcos;
+
+class CentroComercial {
 
     private Fila fila;
     private Caja caja;

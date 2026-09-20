@@ -2,8 +2,6 @@ package huidobroMarcos;
 
 public class Fila {
 
-    public class Fila {
-
     private Persona[] personas;
     private int longitud;
 
@@ -32,6 +30,4 @@ public class Fila {
     public int longitud() {
         return longitud;
     }
-}
-    
 }

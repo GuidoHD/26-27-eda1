@@ -1,5 +1,5 @@
 package huidobroMarcos;
 
-public class Persona {
+class Persona {
     
 }

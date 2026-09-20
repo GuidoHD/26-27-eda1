@@ -1,6 +1,6 @@
 package huidobroMarcos;
 
-public class Caja {
+class Caja {
     public Persona atender(Fila fila) {
         return fila.salir();
     }
