@@ -81,4 +81,33 @@ class ListaEnlazada {
             }
         }
     }
+
+
+    public void eliminarRepetidos() {
+        Nodo dummy = new Nodo(-1);
+        dummy.siguiente = cabeza;
+
+        Nodo anterior = dummy;
+        Nodo actual = cabeza;
+        while (actual != null) {
+            if (actual.siguiente != null && actual.dato == actual.siguiente.dato) {
+                int valorRepetido = actual.dato;
+
+                while (actual != null && actual.dato == valorRepetido) {
+                    actual = actual.siguiente;
+                }
+
+                anterior.siguiente = actual;
+            } else {
+                anterior = actual;
+                actual = actual.siguiente;
+            }
+        }
+
+        cabeza = dummy.siguiente;
+    }
+
+
+
+
 }
