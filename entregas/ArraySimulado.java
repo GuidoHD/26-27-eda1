@@ -37,5 +37,11 @@ public class ArraySimulado {
         return tamaño;
     }
 
+    private void comprobarIndice(int indice) {
+        if (indice < 0 || indice >= tamaño) {
+            System.out.println("Índice no válido");
+        }
+    }
+
 }
 
