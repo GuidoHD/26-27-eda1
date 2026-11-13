@@ -1,0 +1,240 @@
+
+public class Nodo {
+    int valor;
+    Nodo siguiente;
+
+    public Nodo(int valor, Nodo siguiente) {
+        this.valor = valor;
+        this.siguiente = siguiente;
+    }
+
+    public int getValor() {
+        return valor;
+    }
+
+    public Nodo getSiguiente() {
+        return siguiente;
+    }
+
+    public void setSiguiente(Nodo siguiente) {
+        this.siguiente = siguiente;
+    }
+}
+
+
+
+
+
+
+
+public class Pila {
+
+    private Nodo cima;
+
+    public Pila() {
+        cima = null;
+    }
+
+    public void apilar(int valor) {
+        cima = new Nodo(valor, cima);
+    }
+
+    public int desapilar() {
+        if (estaVacia()) {
+            throw new IllegalStateException("La pila está vacía");
+        }
+
+        int valor = cima.valor;
+        cima = cima.siguiente;
+        return valor;
+    }
+
+    public boolean estaVacia() {
+        return cima == null;
+    }
+}
+
+
+
+
+
+
+public class Cola {
+
+    private Pila pila;
+    private Pila auxiliar;
+
+    public Cola() {
+        pila = new Pila();
+        auxiliar = new Pila();
+    }
+
+    public void encolar(int valor) {
+        pila.apilar(valor);
+    }
+
+    public int desencolar() {
+
+        if (estaVacia()) {
+            throw new IllegalStateException("La cola está vacía");
+        }
+
+        int primero = 0;
+
+        while (!pila.estaVacia()) {
+
+            int valor = pila.desapilar();
+
+            if (pila.estaVacia()) {
+                primero = valor;
+            } else {
+                auxiliar.apilar(valor);
+            }
+        }
+
+        while (!auxiliar.estaVacia()) {
+            pila.apilar(auxiliar.desapilar());
+        }
+
+        return primero;
+    }
+
+    public boolean estaVacia() {
+        return pila.estaVacia() && auxiliar.estaVacia();
+    }
+}
+
+
+
+
+
+
+
+
+public class PilaConCola {
+
+    private Cola datos;
+    private int tamano;
+
+    public PilaConCola() {
+        datos = new Cola();
+        tamano = 0;
+    }
+
+    public void apilar(int valor) {
+        datos.encolar(valor);
+        tamano++;
+    }
+
+    public int desapilar() {
+
+        if (estaVacia()) {
+            throw new IllegalStateException("La pila está vacía");
+        }
+
+        for (int i = 0; i < tamano - 1; i++) {
+            datos.encolar(datos.desencolar());
+        }
+
+        int cima = datos.desencolar();
+        tamano--;
+
+        return cima;
+    }
+
+    public boolean estaVacia() {
+        return datos.estaVacia();
+    }
+}
+
+
+
+
+
+public class PruebasPila {
+
+    private static int fallos = 0;
+
+    private static void comprobar(String paso, int esperado, int obtenido) {
+        if (esperado != obtenido) fallos++;
+
+        System.out.println(
+            (esperado == obtenido ? "OK    " : "FALLO ")
+            + paso + " -> esperado " + esperado
+            + ", obtenido " + obtenido
+        );
+    }
+
+    private static void comprobar(String paso, boolean esperado, boolean obtenido) {
+        if (esperado != obtenido) fallos++;
+
+        System.out.println(
+            (esperado == obtenido ? "OK    " : "FALLO ")
+            + paso + " -> esperado " + esperado
+            + ", obtenido " + obtenido
+        );
+    }
+
+    public static void main(String[] args) {
+
+        PilaConCola p = new PilaConCola();
+
+        comprobar("Pila nueva está vacía", true, p.estaVacia());
+
+        p.apilar(1);
+        p.apilar(2);
+        p.apilar(3);
+
+        comprobar("Tras apilar 1, 2, 3", false, p.estaVacia());
+
+        comprobar("Desapilar devuelve 3", 3, p.desapilar());
+
+        p.apilar(4);
+
+        comprobar("Desapilar devuelve 4", 4, p.desapilar());
+        comprobar("Desapilar devuelve 2", 2, p.desapilar());
+
+        comprobar("Queda un elemento", false, p.estaVacia());
+
+        comprobar("El elemento restante es 1", 1, p.desapilar());
+
+        comprobar("Finalmente está vacía", true, p.estaVacia());
+
+        try {
+            p.desapilar();
+            System.out.println("FALLO: debería lanzar excepción");
+            fallos++;
+        } catch (IllegalStateException e) {
+            System.out.println("OK: excepción al desapilar una pila vacía");
+        }
+
+        System.out.println();
+
+        if (fallos == 0) {
+            System.out.println("TODAS LAS PRUEBAS PASAN");
+        } else {
+            System.out.println("FALLOS: " + fallos);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
